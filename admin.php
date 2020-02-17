@@ -12,7 +12,9 @@ only_admin_access();
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+
 <script>
+
 $(document).ready(function () {
 
     $('.js-sb-import-form').submit(function (e) {

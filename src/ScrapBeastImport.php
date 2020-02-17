@@ -85,9 +85,18 @@ class ScrapBeastImport
 
         $readyContent['url'] = $productUrl;
 
-       //$tags = implode(', ', $tags);
+        $tags = explode(' ', $product['title']);
+        if ($tags) {
+            $tags = array_filter($tags);
+            $tags = implode(', ', $tags);
+            $tags = str_replace('!', false, $tags);
+            $tags = str_replace('|', false, $tags);
+            $tags = str_replace('-', false, $tags);
+            $tags = explode(', ', $tags);
+            $tags = array_filter($tags);
 
-        //$readyContent['tags'] = $tags;
+            $readyContent['tags'] = $tags;
+        }
 
         // $categories = implode(', ', $categories);
         //   $readyContent['categories'] = $categories;
@@ -104,6 +113,12 @@ class ScrapBeastImport
         $readyContent['custom_fields'] = array(
             //  array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
         );
+
+
+        $findShop = get_content('is_shop=1&limit=1&single=1');
+        if ($findShop) {
+            $readyContent['parent'] = $findShop['id'];
+        }
 
         $save = save_content($readyContent);
         if ($save) {
